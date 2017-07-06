@@ -305,12 +305,18 @@ class Game {
         this.last_command = ' ';
         this.world.update();
         //recording move
-        
-        let nn_log = JSON.stringify({'last_comand' : command_for_log,
-                                    'id_dead' : this.world.is_final(),
-                                    'map' :  this.world.render()}, null, 4);
-        fs.writeFileSync('test.json',nn_log + ',\n', {
-            flag : 'a',
+        let text = JSON.parse(fs.readFileSync('test.json', 'utf8'));
+
+        text.push({'last_comand' : command_for_log,
+                 'id_dead' : this.world.is_final(),
+                'map' :  this.world.render()});
+        //fs.writeFileSync('test.json',nn_log + ',\n', {
+       //     flag : 'a',
+        //});
+
+        let nn_log = JSON.stringify(text, null, 4);
+        fs.writeFileSync('test.json',nn_log + '\n', {
+            flag : 'w',
         });
         
         //
